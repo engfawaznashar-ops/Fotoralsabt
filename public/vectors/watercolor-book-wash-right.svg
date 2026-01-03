@@ -1,0 +1,54 @@
+<svg width="400" height="120" viewBox="0 0 400 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Large watercolor washes - Bold but elegant -->
+  <ellipse cx="280" cy="60" rx="140" ry="50" fill="#F2C94C" opacity="0.18" filter="url(#blur-large)"/>
+  <ellipse cx="320" cy="50" rx="110" ry="45" fill="#FFF7D9" opacity="0.16" filter="url(#blur-large)"/>
+  <ellipse cx="300" cy="70" rx="90" ry="35" fill="#E5B83D" opacity="0.14" filter="url(#blur-medium)"/>
+  
+  <!-- Main book shape - prominent -->
+  <g opacity="0.12">
+    <path d="M240 35 L240 85 L290 82 L290 32 Z" fill="#2D2D2D" filter="url(#blur-small)"/>
+    <path d="M250 38 L250 82 L285 80 L285 36 Z" fill="#4F4F4F" opacity="0.8"/>
+    <path d="M252 40 L252 80 L283 78 L283 38 Z" fill="#FFF7D9" opacity="0.3"/>
+  </g>
+  
+  <!-- Stacked books effect -->
+  <g opacity="0.10">
+    <rect x="295" y="55" width="45" height="30" rx="2" fill="#2D2D2D" filter="url(#blur-small)" transform="rotate(-8 318 70)"/>
+    <rect x="300" y="50" width="40" height="28" rx="2" fill="#4F4F4F" opacity="0.7" transform="rotate(-5 320 64)"/>
+  </g>
+  
+  <!-- Elegant quill pen - large -->
+  <g opacity="0.11">
+    <path d="M350 20 Q345 28 340 40 Q338 45 336 52" stroke="#2D2D2D" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="352" cy="17" rx="5" ry="9" fill="#2D2D2D" transform="rotate(-25 352 17)"/>
+    <circle cx="336" cy="53" r="2" fill="#2D2D2D"/>
+  </g>
+  
+  <!-- Decorative ink splashes -->
+  <circle cx="360" cy="80" r="4" fill="#F2C94C" opacity="0.2" filter="url(#blur-small)"/>
+  <circle cx="370" cy="65" r="3" fill="#E5B83D" opacity="0.18" filter="url(#blur-small)"/>
+  <circle cx="230" cy="95" r="3.5" fill="#FFF7D9" opacity="0.16" filter="url(#blur-small)"/>
+  <circle cx="330" cy="25" r="2.5" fill="#F2C94C" opacity="0.15"/>
+  
+  <!-- Abstract page lines -->
+  <g opacity="0.08">
+    <line x1="254" y1="45" x2="254" y2="75" stroke="#2D2D2D" stroke-width="0.8"/>
+    <line x1="260" y1="46" x2="260" y2="74" stroke="#2D2D2D" stroke-width="0.8"/>
+    <line x1="266" y1="47" x2="266" y2="73" stroke="#2D2D2D" stroke-width="0.8"/>
+    <line x1="272" y1="48" x2="272" y2="72" stroke="#2D2D2D" stroke-width="0.8"/>
+  </g>
+  
+  <!-- Filters -->
+  <defs>
+    <filter id="blur-large">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12"/>
+    </filter>
+    <filter id="blur-medium">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8"/>
+    </filter>
+    <filter id="blur-small">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
+    </filter>
+  </defs>
+</svg>
+

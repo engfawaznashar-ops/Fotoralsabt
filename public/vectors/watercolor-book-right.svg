@@ -1,0 +1,34 @@
+<svg width="200" height="150" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Watercolor wash background (mirrored) -->
+  <ellipse cx="120" cy="75" rx="90" ry="70" fill="#F2C94C" opacity="0.15" filter="url(#blur1)"/>
+  <ellipse cx="140" cy="60" rx="70" ry="55" fill="#FFF7D9" opacity="0.12" filter="url(#blur1)"/>
+  
+  <!-- Abstract book with quill -->
+  <path d="M120 45 L120 105 L160 100 L160 40 Z" fill="#2D2D2D" opacity="0.08" filter="url(#blur2)"/>
+  <path d="M130 50 L130 100 L155 97 L155 47 Z" fill="#4F4F4F" opacity="0.06"/>
+  
+  <!-- Quill pen (subtle) -->
+  <path d="M170 30 Q165 35 160 45" stroke="#2D2D2D" stroke-width="1" opacity="0.08" fill="none"/>
+  <ellipse cx="171" cy="28" rx="3" ry="5" fill="#2D2D2D" opacity="0.06" transform="rotate(-30 171 28)"/>
+  
+  <!-- Decorative lines -->
+  <line x1="132" y1="55" x2="132" y2="95" stroke="#2D2D2D" stroke-width="0.5" opacity="0.1"/>
+  <line x1="138" y1="54" x2="138" y2="96" stroke="#2D2D2D" stroke-width="0.5" opacity="0.08"/>
+  <line x1="144" y1="53" x2="144" y2="97" stroke="#2D2D2D" stroke-width="0.5" opacity="0.06"/>
+  
+  <!-- Small decorative elements -->
+  <circle cx="110" cy="110" r="2" fill="#F2C94C" opacity="0.15"/>
+  <circle cx="170" cy="100" r="2.5" fill="#E5B83D" opacity="0.12"/>
+  <circle cx="100" cy="45" r="1.5" fill="#FFF7D9" opacity="0.1"/>
+  
+  <!-- Filters -->
+  <defs>
+    <filter id="blur1">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8"/>
+    </filter>
+    <filter id="blur2">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
+    </filter>
+  </defs>
+</svg>
+

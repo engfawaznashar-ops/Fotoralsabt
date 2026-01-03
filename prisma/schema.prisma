@@ -1,0 +1,236 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Episode {
+  id            String   @id @default(cuid())
+  title         String
+  date          DateTime
+  audioUrl      String?
+  summaryAI     String?
+  topicsAI      String?
+  aiMood        String?  // تحفيزي، معرفي، نقاشي، تحليلي، ملهم، هادئ
+  duration      Int?     // Duration in seconds
+  episodeNumber Int?     // Episode number
+  chaptersJson   String?  // JSON string of chapters
+  highlightsJson String?  // JSON string of AI highlights
+  aiInsightsJson String?  // JSON string of AI-generated insights
+
+  books    BookEpisode[]
+  speakers SpeakerEpisode[]
+  quotes   Quote[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([date])
+  @@index([createdAt])
+  @@index([aiMood])
+}
+
+model Author {
+  id       String  @id @default(cuid())
+  nameAr   String  // الاسم بالعربية
+  nameEn   String? // الاسم بالإنجليزية (اختياري)
+  bio      String? // نبذة عن المؤلف
+  xHandle  String? // حساب X/Twitter (بدون @)
+  website  String? // الموقع الشخصي
+
+  books BookAuthor[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([nameAr])
+  @@index([xHandle])
+}
+
+model Book {
+  id              String   @id @default(cuid())
+  titleAr         String   // العنوان بالعربية
+  titleEn         String?  // العنوان بالإنجليزية (اختياري)
+  descriptionAr   String?  // الوصف بالعربية
+  coverImageUrl   String?  // رابط صورة الغلاف
+  isbn10          String?  // ISBN-10
+  isbn13          String?  // ISBN-13
+  language        String?  // اللغة
+  publishYear     Int?     // سنة النشر
+  categories      String?  // JSON array: ["تنمية ذاتية", "إنتاجية"]
+  source          String   @default("manual") // google_books, open_library, manual
+  sourceRef       String?  // Reference ID from source
+  
+  // AI-Generated Content
+  aiSummaryAr     String?  // ملخص ذكي بالعربية
+  aiKeyTakeaways  String?  // JSON array: أفكار رئيسية
+  aiForWho        String?  // JSON array: لمن يناسب
+  aiSimilarBooks  String?  // JSON array: كتب مشابهة
+  aiKnowledgeTags String?  // JSON array: tags للخريطة المعرفية
+
+  // Legacy fields (keep for compatibility)
+  title           String?
+  author          String?
+  aiCoverUrl      String?
+  description     String?
+  category        String?
+  rating          Float?
+  aiSummary       String?
+
+  authors  BookAuthor[]
+  episodes BookEpisode[]
+  speakers SpeakerBook[]
+  quotes   Quote[]
+  offers   BookOffer[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([titleAr])
+  @@index([isbn10])
+  @@index([isbn13])
+  @@index([source])
+}
+
+model BookAuthor {
+  id String @id @default(cuid())
+
+  book     Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookId   String
+  author   Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  @@unique([bookId, authorId])
+  @@index([bookId])
+  @@index([authorId])
+}
+
+model Retailer {
+  id       String  @id @default(cuid())
+  nameAr   String  // اسم المتجر بالعربية
+  baseUrl  String  // الموقع الأساسي
+  logoUrl  String? // رابط الشعار
+  isActive Boolean @default(true)
+
+  offers BookOffer[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+}
+
+model BookOffer {
+  id             String    @id @default(cuid())
+  book           Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookId         String
+  retailer       Retailer  @relation(fields: [retailerId], references: [id], onDelete: Cascade)
+  retailerId     String
+  priceAmount    Float?    // السعر
+  currency       String    @default("SAR") // العملة
+  offerUrl       String    // رابط العرض
+  availability   String?   // متوفر، غير متوفر، قد يتأخر
+  shippingNote   String?   // ملاحظة الشحن
+  lastCheckedAt  DateTime  @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([bookId, retailerId])
+  @@index([bookId])
+  @@index([retailerId])
+  @@index([lastCheckedAt])
+}
+
+model Speaker {
+  id            String  @id @default(cuid())
+  name          String
+  avatarAI      String?
+  bioAI         String?
+  sentiment     String?
+  aiPersona     String? // تحليلي، تحفيزي، قيادي، تقني، إبداعي، استراتيجي
+  aiTopTopic    String? // Most discussed topic
+  episodeCount  Int?    // Number of episodes
+  bookMentionCount Int? // Number of books mentioned
+  twitterHandle String? // Twitter/X handle (without @)
+  aiInsightsBullets String? // JSON array of 2-3 short insight bullets
+
+  books    SpeakerBook[]
+  episodes SpeakerEpisode[]
+  quotes   Quote[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+  @@index([aiPersona])
+}
+
+model Quote {
+  id   String @id @default(cuid())
+  text String
+
+  episode   Episode? @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+  episodeId String?
+
+  speaker   Speaker? @relation(fields: [speakerId], references: [id], onDelete: SetNull)
+  speakerId String?
+
+  book   Book?   @relation(fields: [bookId], references: [id], onDelete: SetNull)
+  bookId String?
+
+  createdAt DateTime @default(now())
+
+  @@index([episodeId])
+  @@index([speakerId])
+  @@index([bookId])
+}
+
+model BookEpisode {
+  id String @id @default(cuid())
+
+  episode   Episode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+  episodeId String
+
+  book   Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookId String
+
+  @@unique([episodeId, bookId])
+  @@index([episodeId])
+  @@index([bookId])
+}
+
+model SpeakerEpisode {
+  id String @id @default(cuid())
+
+  episode   Episode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+  episodeId String
+
+  speaker   Speaker @relation(fields: [speakerId], references: [id], onDelete: Cascade)
+  speakerId String
+
+  @@unique([episodeId, speakerId])
+  @@index([episodeId])
+  @@index([speakerId])
+}
+
+model SpeakerBook {
+  id String @id @default(cuid())
+
+  speaker   Speaker @relation(fields: [speakerId], references: [id], onDelete: Cascade)
+  speakerId String
+
+  book   Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookId String
+
+  @@unique([speakerId, bookId])
+  @@index([speakerId])
+  @@index([bookId])
+}
+
