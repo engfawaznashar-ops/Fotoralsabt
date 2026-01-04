@@ -28,6 +28,10 @@ async function main() {
     update: {},
     create: {
       id: 'book-001',
+      // Required fields for modern schema
+      titleAr: 'كتاب تجريبي',
+      // Optionally fill new required fields as needed by schema
+      // Core data for compatibility
       title: 'كتاب تجريبي',
       author: 'مؤلف تجريبي',
       category: 'تنمية ذاتية',
